@@ -25,7 +25,6 @@ import {
   Building,
   BadgeCheck,
 } from "lucide-react";
-import { ROUTES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { getErrorMessage } from "@/lib/api/error";
 import { useAuth } from "@/contexts/auth-context";
@@ -57,7 +56,7 @@ type PaymentMethod = "paypal_card" | "bank";
 
 export function CheckoutView() {
   const router = useRouter();
-  const { status } = useAuth();
+  useAuth(); // ensure auth context is available
   const { courseIds } = useCart();
   const [cartCourses, setCartCourses] = React.useState<Course[]>([]);
   const [cartLoading, setCartLoading] = React.useState(true);
@@ -68,7 +67,7 @@ export function CheckoutView() {
   const [discountAmount, setDiscountAmount] = React.useState(0);
   const [countryCode, setCountryCode] = React.useState("+20");
   const [phone, setPhone] = React.useState("");
-  const [checkoutError, setCheckoutError] = React.useState<string | null>(null);
+  const [checkoutError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (courseIds.length === 0) {
